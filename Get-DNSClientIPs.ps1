@@ -70,7 +70,7 @@ Function IsPrivateNetwork( [String]$IP)
 
 
 
-Get-Content $DNSlogPath | where {$_ -match "Rcv " -and $_ -match " Q " -or $_ -match " R Q "} | foreach {
+Get-Content $DNSlogPath | where {$_ -match "Rcv " -and ($_ -match " Q " -or $_ -match " R Q ")} | foreach {
    $ClientIP = ($_ -split(" "))[8]
 
 if (IsPrivateNetwork($ClientIP) -eq $true)
