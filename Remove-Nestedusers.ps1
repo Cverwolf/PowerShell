@@ -54,7 +54,7 @@ param
 foreach ($strGroup in $strgroups)
 {
 
-# Determine if group is a member of any other groups, if it is then it moves forwards with collapsing nesting
+# Determine if group is a member of any other groups, if it is then move forwards with collapsing nesting
   if ((GET-ADGROUP –Identity $strGroup –Properties MemberOf | Select-Object MemberOf).memberof)
 
 {
