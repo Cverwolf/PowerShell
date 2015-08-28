@@ -1,3 +1,8 @@
+# This script will query Dynamic distribution group mmbership to a text file in the same directory as it is executed.
+# There is a choice menu to query group membership on either (A) all DDGs or (S) a specific DDG.  
+# There is a popup for name of the specific DDG if (S) is chosen.  Currently it loads the Exchage 2007 admin tools. 
+
+
 function get_DDMems($DDGgrps)
 {
 foreach ($grp in $DDGgrps) 
