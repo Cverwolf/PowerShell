@@ -1,7 +1,11 @@
-# This script will query Dynamic distribution group mmbership to a text file in the same directory as it is executed.
+# This is a fairly simple script that queryies DDG membership and saves to a text file in the same directory as it is executed.
 # There is a choice menu to query group membership on either (A) all DDGs or (S) a specific DDG.  
-# There is a popup for name of the specific DDG if (S) is chosen.  Currently it loads the Exchage 2007 admin tools. 
-
+# There is a popup for name of the specific DDG if (S) is chosen.  
+#
+# Currently it loads the Exchage 2007 admin tools
+# Plan to edit to look for and load the other tools and/or use remoting. 
+#
+# 
 
 function get_DDMems($DDGgrps)
 {
@@ -29,17 +33,23 @@ $specificDDG = New-Object System.Management.Automation.Host.ChoiceDescription "&
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($All, $specificDDG)
 $result = $host.ui.PromptForChoice($title, $message, $options, 0) 
 
+#select group membership query type from choice menu input from $result
 switch ($result)
     {
         0 {
+            # Query all DDGs and run return members function 'get_DDMems' on them all, outputting to a TXT file
             $DDGgrps = Get-DynamicDistributionGroup -resultsize unlimited
             get_DDMems $DDGgrps | out-file All_DDG_members.txt
           }
         1 {
+            # Create inputbox for entering specific DDG
             [System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic') | Out-Null
             $inputgrp = [Microsoft.VisualBasic.Interaction]::InputBox("Enter a Dynamic Disto Group name", "DDG") 
+            # get specific DDG supplied in inputbox and assign it to variable
             $DDGgrps = Get-DynamicDistributionGroup $inputgrp
+            # Append groupname to '_DDG_members.txt' to name output file
             $outfile = $inputgrp + "_DDG_members.txt"
+            # Run return members function 'get_DDMems' on specific DDG supplied, outputting to a TXT file
             get_DDMems $DDGgrps | out-file $outfile
           }
     }
